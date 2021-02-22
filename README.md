@@ -5,6 +5,7 @@ Need the following installed
 # Build & Run
 * Install dependencies: `npm i`
 * Build project: `npm run build`
+* Connect VPN to PSU
 * Run: `npm run start`
 
 Building the project transpiles the TypeScript files in /src to JavaScript in /lib.
