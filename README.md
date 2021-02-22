@@ -7,5 +7,6 @@ Need the following installed
 * Build project: `npm run build`
 * Connect VPN to PSU
 * Run: `npm run start`
+* Open browser and go to [http://localhost:8080]
 
 Building the project transpiles the TypeScript files in /src to JavaScript in /lib.
