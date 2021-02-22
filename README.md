@@ -1,2 +1,6 @@
-Build with: npm run build
-- compiles *.ts files in /src to JavaScript in /lib directory
+# Build & Run
+* Install dependencies: `npm i`
+* Build project: `npm run build`
+* Run: `npm run start`
+
+Building the project transpiles the TypeScript files in /src to JavaScript in /lib.
