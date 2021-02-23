@@ -2,7 +2,9 @@ import http from 'http'
 import { QueryResult } from 'pg'
 const { Client }  = require('pg')
 
-const connectionString = 'postgresql://w21wdb5:@1Samsung@dbclass.cs.pdx.edu:5432/w21wdb5'
+// Don't commit you password
+const pw: String = 'notmypassword'
+const connectionString = `postgresql://w21wdb5:${pw}@dbclass.cs.pdx.edu:5432/w21wdb5`
 const client = new Client({ connectionString })
 client.connect((err: any) => {
     if (err) {
