@@ -1,6 +1,13 @@
+/*
+ *
+ *  Adapted from David Neal's blog post: https://developer.okta.com/blog/2018/11/15/node-express-typescript
+ *
+ */
+
 // import http from 'http'
 // import { Query, QueryResult } from 'pg'
 // import { Client } from 'pg'
+
 import express from 'express'
 import path from 'path'
 const app = express()
