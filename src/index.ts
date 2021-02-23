@@ -22,12 +22,10 @@ let server = http.createServer((req, res) => {
         res.end()
     } else if (req.url == '/agent') {
         client
-            .query("SELECT * FROM spy.agent WHERE first like 'W%'")
+            .query("SELECT * FROM spy.agent WHERE last like 'W%'")
             .then((queryResult: QueryResult) => {
-                console.log(queryResult.rows[0])
-
                 res.writeHead(200, { 'Content-Type': 'application/json' })
-                res.write(JSON.stringify({ results: queryResult.rows[0] }))
+                res.write(JSON.stringify({ results: queryResult.rows }))
                 res.end()
             })
             .catch((e: any) => console.log(e.stack))
