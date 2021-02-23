@@ -40,6 +40,32 @@ let server = http.createServer((req, res) => {
     }
 })
 
+// Distinct countries in Agents table
+enum Country {
+    Iraq = 'Iraq',
+    Turkey = 'Turkey',
+    Spain = 'Spain',
+    England = 'England',
+    Italy = 'Italy',
+    Egypt = 'Egypt',
+    Greece = 'Greece',
+    Austrailia = 'Austrailia',
+    Russia = 'Russia',
+    China = 'China',
+    Luxembourg = 'Luxembourg',
+    India = 'India',
+    France = 'France',
+    USA = 'USA',
+    Israel = 'Israel',
+    Brazil = 'Brazil',
+    Poland = 'Poland',
+    Germany = 'Germany',
+    Japan = 'Japan',
+    Singapore = 'Singapore',
+    Canada = 'Canada',
+    Holland = 'Holland'
+}
+
 let sendLandingPage = (res:any): void => {
     res.writeHead(200, { 'content-type': 'text/html' })
     res.write('<html><body><p>Spy Database</p></body></html>')
