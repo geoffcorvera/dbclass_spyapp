@@ -67,8 +67,13 @@ enum Country {
 }
 
 let sendLandingPage = (res:any): void => {
+    const form = `<form action="/country">
+        <label for="country">country</label><input type="text" id="country">
+        <input type="submit">
+    </form>`
+
     res.writeHead(200, { 'content-type': 'text/html' })
-    res.write('<html><body><p>Spy Database</p></body></html>')
+    res.write(`<html><body>${form}</body></html>`)
     res.end()
 }
 
