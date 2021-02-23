@@ -1,7 +1,26 @@
-import http from 'http'
-import { Query, QueryResult } from 'pg'
-const { Client }  = require('pg')
+// import http from 'http'
+// import { Query, QueryResult } from 'pg'
+// import { Client } from 'pg'
+import express from 'express'
+import path from 'path'
+const app = express()
+const PORT = 8080
 
+// Configure Express to use EJS
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+// Route handler for home page
+app.get('/', (req: any, res: any) => {
+    res.render('index')
+})
+
+app.listen(PORT, () => {
+    // tslint:disable-next-line:no-console
+    console.log(`Server started on http://localhost:${ PORT }`)
+})
+
+/*
 // Don't commit you password
 const PW = 'foobar'
 const USERNAME = 'w21wdb5'
@@ -95,10 +114,11 @@ let writeBody = (res: any, rows: any): void => {
         + '<th>salary</th>'
         + '<th>clearance_id</th></tr>'
     let rowsMarkup = rows.map((row:any) => `<tr><td>${ Object.values(row).join('</td><td>') }</td></tr>`)
-    
+
     res.write('<body><h1>Agents</h1><table>' + tableHeader + rowsMarkup.join('') + '</table></body>')
 }
 
 const PORT = 8080
 server.listen(PORT)
 console.log(`Server listening on ${PORT}`)
+*/
