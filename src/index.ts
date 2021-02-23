@@ -2,8 +2,9 @@ import http from 'http'
 import { Query, QueryResult } from 'pg'
 const { Client }  = require('pg')
 
-// Don't commit you password
-const PW = 'foobar'
+// TODO: move DB config into separate file & create separate dir for data layer
+//   See https://node-postgres.com/guides/project-structure
+const PW = 'foobar'         // Don't commit you password!!!!
 const USERNAME = 'w21wdb5'
 const DB = USERNAME
 const HOSTNAME = 'dbclass.cs.pdx.edu'
@@ -15,11 +16,11 @@ client.connect((err: any) => {
     if (err) {
         console.log('Connection error', err.stack)
     } else {
-        console.log('Connected')
+        console.log('Connected to class database.')
     }
 })
 
-// TODO: Should I install pg-cursor?
+// TODO: separate directory for routes implementations
 let server = http.createServer((req, res) => {
     // Routes
     if (req.url == '/') {
@@ -29,7 +30,7 @@ let server = http.createServer((req, res) => {
             .query("SELECT * FROM spy.agent WHERE last like 'W%'")
             .then((qr: QueryResult) => {
                 res.writeHead(200, { 'content-type': 'text/html' })
-                writeTop(res)
+                writeHeadAndStyle(res)
                 writeBody(res, qr.rows)
                 res.write('</html>')
                 res.end()
@@ -46,7 +47,7 @@ let sendLandingPage = (res:any): void => {
     res.end()
 }
 
-let writeTop = (res:any): void => {
+let writeHeadAndStyle = (res:any): void => {
     let styling = `
     <style>
         table { border-collapse:collapse; width:100%; }
