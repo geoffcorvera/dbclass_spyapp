@@ -29,7 +29,7 @@ let server = http.createServer((req, res) => {
             .query("SELECT * FROM spy.agent WHERE last like 'W%'")
             .then((qr: QueryResult) => {
                 res.writeHead(200, { 'content-type': 'text/html' })
-                writeTop(res)
+                writeHeadAndStyle(res)
                 writeBody(res, qr.rows)
                 res.write('</html>')
                 res.end()
@@ -46,19 +46,14 @@ let sendLandingPage = (res:any): void => {
     res.end()
 }
 
-let writeTop = (res:any): void => {
-    let styling = `
-    <style>
+let writeHeadAndStyle = (res:any): void => {
+    let styling = `<style>
         table { border-collapse:collapse; width:100%; }
         table, th, td { border: 1px solid black; }
         th, td { padding: 10px; }
-    </style>
-    `
-    res.write(
-        '<html><head><title>Spy App</title>' +
-        styling +
-        '</head>'
-    )
+    </style>`
+
+    res.write('<html><head><title>Spy App</title>' + styling + '</head>')
 }
 
 let writeBody = (res: any, rows: any): void => {
@@ -68,10 +63,7 @@ let writeBody = (res: any, rows: any): void => {
         + '<th>address</th><th>city</th><th>country</th>'
         + '<th>salary</th>'
         + '<th>clearance_id</th></tr>'
-
-    let rowsMarkup = rows.map((row:any) => {
-        return '<tr><td>' + Object.values(row).join('</td><td>') + '</td></tr>'
-    })
+    let rowsMarkup = rows.map((row:any) => `<tr><td>${ Object.values(row).join('</td><td>') }</td></tr>`)
     
     res.write('<body><h1>Agents</h1><table>' + tableHeader + rowsMarkup.join('') + '</table></body>')
 }
