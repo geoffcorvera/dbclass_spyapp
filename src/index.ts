@@ -1,25 +1,23 @@
 /*
- *
  *  Adapted from David Neal's blog post: https://developer.okta.com/blog/2018/11/15/node-express-typescript
- *
  */
 
 import dotenv from 'dotenv'
 import express from 'express'
 import path from 'path'
+import * as routes from './routes'
+
 dotenv.config()
 const PORT = process.env.SERVER_PORT
+
 const app = express()
-const PORT = 8080
 
 // Configure Express to use EJS
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-// Route handler for home page
-app.get('/', (req: any, res: any) => {
-    res.render('index')
-})
+// Configure routes
+routes.register(app)
 
 app.listen(PORT, () => {
     // tslint:disable-next-line:no-console
@@ -123,8 +121,4 @@ let writeBody = (res: any, rows: any): void => {
 
     res.write('<body><h1>Agents</h1><table>' + tableHeader + rowsMarkup.join('') + '</table></body>')
 }
-
-const PORT = 8080
-server.listen(PORT)
-console.log(`Server listening on ${PORT}`)
 */
