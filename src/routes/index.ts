@@ -10,6 +10,7 @@ const DB = USERNAME
 const HOSTNAME = 'dbclass.cs.pdx.edu'
 const DB_PORT = '5432'
 
+// Connect to database
 const connectionString = `postgresql://${USERNAME}:${PW}@${HOSTNAME}:${DB_PORT}/${DB}`
 const client = new Client({ connectionString })
 client.connect((err: any) => {
@@ -24,14 +25,15 @@ client.connect((err: any) => {
 
 export const register = (app: express.Application) => {
     app.get('/', (req: any, res) => {
-        res.render('index')
+        res.render('index', { header: 'Spy App' })
     })
 
     app.get('/agents', (req: any, res) => {
         client
             .query("SELECT * FROM spy.agent WHERE last like 'W%'")
             .then((qr: QueryResult) => {
-                const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
+                let rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
+                res.render('agents', { agents: rowValues })
             })
             .catch((e: any) => {
                 // tslint:disable-next-line:no-console
@@ -39,6 +41,7 @@ export const register = (app: express.Application) => {
             })
 
         res.render('agents')
+        // client.end()
     })
 }
 
