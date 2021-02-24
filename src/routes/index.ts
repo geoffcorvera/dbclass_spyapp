@@ -4,8 +4,8 @@ import { Client } from 'pg'
 
 
 // Database parameters
-const PW = '@1Samsung'             // Don't commit you password
-const USERNAME = 'w21wdb5'
+const PW = '@foobar'             // Don't commit you password
+const USERNAME = 'username'
 const DB = USERNAME
 const HOSTNAME = 'dbclass.cs.pdx.edu'
 const DB_PORT = '5432'
