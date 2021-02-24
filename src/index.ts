@@ -4,12 +4,11 @@
  *
  */
 
-// import http from 'http'
-// import { Query, QueryResult } from 'pg'
-// import { Client } from 'pg'
-
+import dotenv from 'dotenv'
 import express from 'express'
 import path from 'path'
+dotenv.config()
+const PORT = process.env.SERVER_PORT
 const app = express()
 const PORT = 8080
 
