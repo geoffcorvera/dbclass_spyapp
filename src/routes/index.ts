@@ -28,20 +28,18 @@ export const register = (app: express.Application) => {
         res.render('index', { header: 'Spy App' })
     })
 
+    // TODO when to close client?
     app.get('/agents', (req: any, res) => {
         client
-            .query("SELECT * FROM spy.agent WHERE last like 'W%'")
+            .query("SELECT * FROM spy.agent WHERE last like 'W%' ORDER BY first")
             .then((qr: QueryResult) => {
-                let rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
+                const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
                 res.render('agents', { agents: rowValues })
             })
             .catch((e: any) => {
                 // tslint:disable-next-line:no-console
                 console.log(e.stack)
             })
-
-        res.render('agents')
-        // client.end()
     })
 }
 
