@@ -26,4 +26,8 @@ const getClient = (callback: any) => {
         })
 }
 
-export { query, getClient }
+const endClient = () => {
+    client.end()
+}
+
+export { query, getClient, endClient }

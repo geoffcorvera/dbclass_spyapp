@@ -11,8 +11,10 @@
 <body>
     <div class="container">
         <h1 class="header"><%= header %></h1>
-        <label for="country">Country</label><input type="text" id="country">
-        <a class="btn" href="/agents"><i class="material-icons right">arrow_forward</i>Filter Agents</a>
+        <form action="/agents" method="GET">
+            <label for="country">Country</label><input type="text" name="country" id="country">
+            <button class="btn" type="submit"><i class="material-icons right">arrow_forward</i>Filter Agents</button>
+        </form>
     </div>
 </body>
 </html>
