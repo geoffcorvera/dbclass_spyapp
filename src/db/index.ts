@@ -1,10 +1,10 @@
 import { Client, QueryResult } from 'pg'
 
 const pw = 'foo'       // DO NOT check in your password!!!
-const username = 'w21wdb5'
-const db = username
-const hostname = 'dbclass.cs.pdx.edu'
-const dbPort = '5432'
+const username = 'username'
+const db = 'database'
+const hostname = 'hostname'
+const dbPort = 'port'
 
 const connectionString =
     `postgresql://${ username }:${ pw }@${ hostname }:${ dbPort }/${ db }`
