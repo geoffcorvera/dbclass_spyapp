@@ -1,27 +1,6 @@
 import * as express from 'express'
 import { QueryResult } from 'pg'
-import { Client } from 'pg'
-
-
-// Database parameters
-const PW = '@foobar'             // Don't commit you password
-const USERNAME = 'username'
-const DB = USERNAME
-const HOSTNAME = 'dbclass.cs.pdx.edu'
-const DB_PORT = '5432'
-
-// Connect to database
-const connectionString = `postgresql://${USERNAME}:${PW}@${HOSTNAME}:${DB_PORT}/${DB}`
-const client = new Client({ connectionString })
-client.connect((err: any) => {
-    if (err) {
-        // tslint:disable-next-line:no-console
-        console.log('Database connection error', err.stack)
-    } else {
-        // tslint:disable-next-line:no-console
-        console.log('Connected to class DB')
-    }
-})
+import * as db from '../db'
 
 export const register = (app: express.Application) => {
     app.get('/', (req: any, res) => {
@@ -30,42 +9,23 @@ export const register = (app: express.Application) => {
 
     // TODO when to close client?
     app.get('/agents', (req: any, res) => {
-        client
-            .query("SELECT * FROM spy.agent WHERE last like 'W%' ORDER BY first")
-            .then((qr: QueryResult) => {
-                const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
-                res.render('agents', { agents: rowValues })
-            })
-            .catch((e: any) => {
-                // tslint:disable-next-line:no-console
-                console.log(e.stack)
-            })
+        // Connect client to database
+        db.getClient(() => {
+            // tslint:disable-next-line:no-console
+            console.log('Connected to class DB')
+        })
+
+        const sql = "SELECT * FROM spy.agent WHERE last like 'W%' ORDER BY first"
+        db.query(sql)
+          .then((qr: QueryResult) => {
+              const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
+              res.render('agents', { agents: rowValues })
+          })
+          .catch((e: Error) => {
+              // tslint:disable-next-line:no-console
+              console.log(e.stack)
+          })
     })
 }
 
 
-// Distinct countries in Agents table
-enum Country {
-    Iraq = 'Iraq',
-    Turkey = 'Turkey',
-    Spain = 'Spain',
-    England = 'England',
-    Italy = 'Italy',
-    Egypt = 'Egypt',
-    Greece = 'Greece',
-    Austrailia = 'Austrailia',
-    Russia = 'Russia',
-    China = 'China',
-    Luxembourg = 'Luxembourg',
-    India = 'India',
-    France = 'France',
-    USA = 'USA',
-    Israel = 'Israel',
-    Brazil = 'Brazil',
-    Poland = 'Poland',
-    Germany = 'Germany',
-    Japan = 'Japan',
-    Singapore = 'Singapore',
-    Canada = 'Canada',
-    Holland = 'Holland'
-}

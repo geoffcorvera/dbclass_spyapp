@@ -1,0 +1,29 @@
+import { Client, QueryResult } from 'pg'
+
+const pw = 'foo'       // DO NOT check in your password!!!
+const username = 'w21wdb5'
+const db = username
+const hostname = 'dbclass.cs.pdx.edu'
+const dbPort = '5432'
+
+const connectionString =
+    `postgresql://${ username }:${ pw }@${ hostname }:${ dbPort }/${ db }`
+
+const client = new Client({ connectionString })
+
+// TODO: when do you close client connection?
+const query = (text: string, params?: [any]) => {
+    return params ? client.query(text, params) : client.query(text)
+}
+
+const getClient = (callback: any) => {
+    client
+        .connect()
+        .then(() => callback())
+        .catch((err: Error) => {
+            // tslint:disable-next-line:no-console
+            console.error('db connection error', err.stack)
+        })
+}
+
+export { query, getClient }
