@@ -1,4 +1,4 @@
-import { Client, QueryResult } from 'pg'
+import { Client } from 'pg'
 
 const pw = 'foo'       // DO NOT check in your password!!!
 const username = 'username'
@@ -16,7 +16,7 @@ const query = (text: string, params?: [any]) => {
     return params ? client.query(text, params) : client.query(text)
 }
 
-const getClient = (callback: any) => {
+const getClient = (callback?: any) => {
     client
         .connect()
         .then(() => callback())
