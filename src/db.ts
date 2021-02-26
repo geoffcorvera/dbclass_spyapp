@@ -1,33 +1,22 @@
-import { Client } from 'pg'
+import { Pool } from 'pg'
 
-const pw = 'foo'       // DO NOT check in your password!!!
-const username = 'username'
-const db = 'database'
-const hostname = 'hostname'
-const dbPort = 'port'
+const pw = '@1Samsung'       // DO NOT check in your password!!!
+const username = 'w21wdb5'
+const db = 'w21wdb5'
+const hostname = 'dbclass.cs.pdx.edu'
+const dbPort = '5432'
 
 const connectionString =
     `postgresql://${ username }:${ pw }@${ hostname }:${ dbPort }/${ db }`
 
-const client = new Client({ connectionString })
+const pool = new Pool({ connectionString })
 
-// TODO: when do you close client connection?
-const query = (text: string, params?: [any]) => {
-    return params ? client.query(text, params) : client.query(text)
-}
+// pool.on('error', (err: Error, client: PoolClient) => {
+//     // tslint:disable-next-line:no-console
+//     console.error('Unexpected error on idle client', err)
+//     process.exit(-1)
+// })
 
-const getClient = (callback?: any) => {
-    client
-        .connect()
-        .then(() => callback())
-        .catch((err: Error) => {
-            // tslint:disable-next-line:no-console
-            console.error('db connection error', err.stack)
-        })
-}
+const query = (text: string, params?: any[]) => pool.query(text, params)
 
-const endClient = () => {
-    client.end()
-}
-
-export { query, getClient, endClient }
+export { query }
