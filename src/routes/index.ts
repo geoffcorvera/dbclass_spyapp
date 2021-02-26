@@ -8,6 +8,7 @@ export const register = (app: express.Application) => {
     })
 
     // TODO when to close client?
+    // TODO bug fix: this is getting called twice/form submit
     app.get('/agents', (req: express.Request, res) => {
         const country = req.query.country!
         if (COUNTRIES.has(country.toString())) {
@@ -27,6 +28,7 @@ export const register = (app: express.Application) => {
                   // tslint:disable-next-line:no-console
                   console.log(e.stack)
               })
+
         } else {
             res.writeHead(500)
             res.write('Invalid parameters')
