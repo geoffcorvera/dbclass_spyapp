@@ -21,16 +21,11 @@ export const register = (app: express.Application) => {
             db.query(sql)
               .then((qr: QueryResult) => {
                   const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
-                  res.render('agents', { agents: rowValues })
+                  res.render('agents', { country, agents: rowValues })
               })
               .catch((e: Error) => {
                   // tslint:disable-next-line:no-console
                   console.log(e.stack)
-              })
-            // TODO refactor to use pg.pool instead of pg.client
-            // https://stackoverflow.com/questions/63074649/node-js-postgresql-pg-client-has-already-been-connected-you-cannot-reuse
-              .finally(() => {
-                  db.endClient()
               })
         } else {
             res.writeHead(500)
