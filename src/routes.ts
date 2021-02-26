@@ -12,12 +12,10 @@ export const register = (app: express.Application) => {
         const country = req.query.country!
 
         if (COUNTRIES.has(country.toString())) {
-            const sql = `SELECT * FROM spy.agent WHERE country = '${country}' ORDER BY first`
+            const getAgentsByCountrySQL = `SELECT * FROM spy.agent WHERE LOWER(country) = $1 ORDER BY first`
 
-            // Connect client to database
-            db.getClient()
-
-            db.query(sql)
+            db
+                .query(getAgentsByCountrySQL, [country.toString().toLowerCase()])
                 .then((qr: QueryResult) => {
                     const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
                     res.render('agents', { country, agents: rowValues })
@@ -27,10 +25,8 @@ export const register = (app: express.Application) => {
                     res.write(e.stack)
                     res.end()
                 })
-                .finally(() => db.endClient())
-        }
 
-        else {
+        } else {
             res.writeHead(500)
             res.write({ error: 'Invalid country input' })
             res.end()
