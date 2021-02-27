@@ -63,28 +63,3 @@ export const register = (app: express.Application) => {
         }
     })
 }
-
-const COUNTRIES = new Set([
-    'Iraq',
-    'Turkey',
-    'Spain',
-    'England',
-    'Italy',
-    'Egypt',
-    'Greece',
-    'Austrailia',
-    'Russia',
-    'China',
-    'Luxembourg',
-    'India',
-    'France',
-    'USA',
-    'Israel',
-    'Brazil',
-    'Poland',
-    'Germany',
-    'Japan',
-    'Singapore',
-    'Canada',
-    'Holland'
-])
