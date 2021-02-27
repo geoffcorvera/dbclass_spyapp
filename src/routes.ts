@@ -35,10 +35,6 @@ export const register = (app: express.Application) => {
 
             const sql = sqlSelect + sqlFrom + sqlWhere + sqlOrder
 
-            // tslint:disable-next-line:no-console
-            console.log(sql)
-
-            // Send query to the database and handle response
             db
                 .query(sql, params)
                 .then((qr: QueryResult) => {
