@@ -10,30 +10,28 @@ export const register = (app: express.Application) => {
 
     // TODO bug fix: this is getting called twice/form submit
     app.get('/agents', (req: express.Request, res) => {
+        const { country } = req.query
 
-        if (req.query.country !== undefined) {
-            const country = req.query.country.toString()
+        if (typeof country === 'string' && COUNTRIES.has(country)) {
+            const getAgentsByCountrySQL = `SELECT * FROM spy.agent WHERE LOWER(country) = $1 ORDER BY city`
 
-            if (COUNTRIES.has(country)) {
-                const getAgentsByCountrySQL = `SELECT * FROM spy.agent WHERE LOWER(country) = $1 ORDER BY city`
+            db
+                .query(getAgentsByCountrySQL, [country.toLowerCase()])
+                .then((qr: QueryResult) => {
+                    const headers = Object.keys(qr.rows[0])
+                    const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
+                    res.render('agents', { country, headers, agents: rowValues })
+                })
+                .catch((e: Error) => {
+                    res.writeHead(500)
+                    res.write(e.stack)
+                    res.end()
+                })
 
-                db
-                    .query(getAgentsByCountrySQL, [country.toLowerCase()])
-                    .then((qr: QueryResult) => {
-                        const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
-                        res.render('agents', { country, agents: rowValues })
-                    })
-                    .catch((e: Error) => {
-                        res.writeHead(500)
-                        res.write(e.stack)
-                        res.end()
-                    })
-
-            } else {
-                res.writeHead(200)
-                res.write('Invalid country input')
-                res.end()
-            }
+        } else {
+            res.writeHead(200)
+            res.write('Invalid country input')
+            res.end()
         }
     })
 }

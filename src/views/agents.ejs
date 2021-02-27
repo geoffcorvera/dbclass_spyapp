@@ -12,16 +12,11 @@
         <h1 class="header">Agents from <%= country %></h1>
         <table>
             <tr>
-                <th>agent_id</th>
-                <th>first</th>
-                <th>middle</th>
-                <th>last</th>
-                <th>address</th>
-                <th>city</th>
-                <th>country</th>
-                <th>salary</th>
-                <th>clearance_id</th>
+                <% headers.forEach(function(key) { %>
+                    <th><%= key %></th>
+                <% }) %>
             </tr>
+            
             <% if(agents !== undefined) { %>
                 <% agents.forEach(function(agent) { %>
                     <tr>
