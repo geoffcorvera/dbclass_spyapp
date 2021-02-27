@@ -11,12 +11,6 @@ const connectionString =
 
 const pool = new Pool({ connectionString })
 
-// pool.on('error', (err: Error, client: PoolClient) => {
-//     // tslint:disable-next-line:no-console
-//     console.error('Unexpected error on idle client', err)
-//     process.exit(-1)
-// })
-
 const query = (text: string, params?: any[]) => pool.query(text, params)
 
 export { query }
