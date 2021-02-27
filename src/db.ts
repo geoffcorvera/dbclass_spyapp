@@ -1,10 +1,10 @@
 import { Pool } from 'pg'
 
-const pw = '@1Samsung'       // DO NOT check in your password!!!
-const username = 'w21wdb5'
-const db = 'w21wdb5'
-const hostname = 'dbclass.cs.pdx.edu'
-const dbPort = '5432'
+const pw = 'foo'       // DO NOT check in your password!!!
+const username = 'foo'
+const db = 'foo'
+const hostname = 'foo'
+const dbPort = 'foo'
 
 const connectionString =
     `postgresql://${ username }:${ pw }@${ hostname }:${ dbPort }/${ db }`
