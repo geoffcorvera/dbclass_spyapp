@@ -1,4 +1,4 @@
-import { count } from 'console'
+import { count, table } from 'console'
 import * as express from 'express'
 import { QueryResult } from 'pg'
 import * as db from './db'
@@ -8,57 +8,42 @@ export const register = (app: express.Application) => {
         res.render('index', { header: 'Spy App' })
     })
 
-    // TODO bug fix: this is getting called twice/form submit
-    app.get('/agents', (req: express.Request, res) => {
-
-        if (req.query.country !== undefined) {
-            const country = req.query.country.toString()
-
-            if (COUNTRIES.has(country)) {
-                const getAgentsByCountrySQL = `SELECT * FROM spy.agent WHERE LOWER(country) = $1 ORDER BY city`
-
-                db
-                    .query(getAgentsByCountrySQL, [country.toLowerCase()])
-                    .then((qr: QueryResult) => {
-                        const rowValues: any[] = qr.rows.map((row: any) => Object.values(row))
-                        res.render('agents', { country, agents: rowValues })
-                    })
-                    .catch((e: Error) => {
-                        res.writeHead(500)
-                        res.write(e.stack)
-                        res.end()
-                    })
-
-            } else {
-                res.writeHead(200)
-                res.write('Invalid country input')
-                res.end()
-            }
-        }
-    })
+    app.get('/agents', agentsHandler)
 }
 
-const COUNTRIES = new Set([
-    'Iraq',
-    'Turkey',
-    'Spain',
-    'England',
-    'Italy',
-    'Egypt',
-    'Greece',
-    'Austrailia',
-    'Russia',
-    'China',
-    'Luxembourg',
-    'India',
-    'France',
-    'USA',
-    'Israel',
-    'Brazil',
-    'Poland',
-    'Germany',
-    'Japan',
-    'Singapore',
-    'Canada',
-    'Holland'
-])
+const onlyAlpha = /^[a-zA-Z ]*$/
+
+const agentsHandler = (req: express.Request, res: any) => {
+    const { country, team } = req.query
+
+    const sql =  `SELECT last||', '||first AS agent, name AS team, city, country, salary
+                FROM spy.agent NATURAL JOIN spy.teamrel NATURAL JOIN spy.team
+                WHERE LOWER(country) = $1 AND LOWER(name) = $2
+                ORDER BY country, team, agent`
+
+    // Check that input is only letters and spaces
+    if (typeof country === 'string' && typeof team === 'string') {
+        if ((country === '' || onlyAlpha.test(country)) && (team === '' || onlyAlpha.test(team))) {
+
+            // tslint:disable-next-line:no-console
+            console.log(sql)
+
+            db
+                .query(sql, [country.toLowerCase(), team.toLowerCase()])
+                .then((qr: QueryResult) => {
+                    const rows = qr.rows.map((row: any) => Object.values(row))
+                    const headers = Object.keys(qr.rows[0])
+                    res.render('agents', { country, team, headers, agents: rows})
+                })
+                .catch((e: Error) => {
+                    res.writeHead(500)
+                    res.write(e.stack)
+                    res.end()
+                })
+        } else {
+            res.writeHead(200)
+            res.write('Invalid input')
+            res.end()
+        }
+    }
+}

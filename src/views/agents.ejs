@@ -8,34 +8,27 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-    <div class="container">
-        <h1 class="header">Agents from <%= country %></h1>
+    <div class="container">        
+        <h3 class="header">Agent Results (Country: <%= country %> - Team: <%= team %></h3>
+
         <table>
-            <!-- TODO get headers for variable cols -->
             <tr>
-                <th>agent_id</th>
-                <th>first</th>
-                <th>middle</th>
-                <th>last</th>
-                <th>address</th>
-                <th>city</th>
-                <th>country</th>
-                <th>salary</th>
-                <th>clearance_id</th>
+                <% headers.forEach(function(attr) { %>
+                    <th><%= attr %></th>
+                <% }) %>
             </tr>
-            <% if(agents !== undefined) { %>
-                <% agents.forEach(function(agent) { %>
-                    <tr>
-                        <% agent.forEach(function(attr) { %>
-                            <% if(attr) { %>
-                                <td><%= attr %></td>
-                            <% } else { %>
-                                <td></td>
-                            <% } %>
-                        <% }); %>
-                    </tr>
-                <% }); %>
-            <% } %>
+
+            <% agents.forEach(function(agent) { %>
+                <tr>
+                    <% agent.forEach(function(attr) { %>
+                        <% if(attr) { %>
+                            <td><%= attr %></td>
+                        <% } else { %>
+                            <td></td>
+                        <% } %>
+                    <% }); %>
+                </tr>
+            <% }); %>
         </table>
     </div>
 </body>
