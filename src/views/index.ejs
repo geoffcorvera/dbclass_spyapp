@@ -12,7 +12,13 @@
     <div class="container">
         <h1 class="header"><%= header %></h1>
         <form action="/agents" method="GET">
-            <label for="country">Country</label><input type="text" name="country" id="country">
+
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country">
+
+            <label for="team">Team</label>
+            <input type="text" name="team" id="team">
+
             <button class="btn" type="submit"><i class="material-icons right">arrow_forward</i>Filter Agents</button>
         </form>
     </div>
